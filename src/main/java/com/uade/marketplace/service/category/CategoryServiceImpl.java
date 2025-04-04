@@ -67,4 +67,9 @@ public class CategoryServiceImpl implements CategoryService {
                 .orElseThrow(() -> new CategoryNotFoundException("La categoria no existe"));
         this.categoryRepository.delete(entity);
     }
+
+    @Override
+    public boolean existsById(Long categoryId) {
+        return this.categoryRepository.existsById(categoryId);
+    }
 }

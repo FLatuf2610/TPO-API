@@ -4,12 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetAllProductsResponse {
-    List<ListProduct> products;
+public class DeleteProductResponse {
+    private String message;
 }
-

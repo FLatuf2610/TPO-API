@@ -9,9 +9,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductResponse {
+public class ProductDetail {
     private Long id;
     private String name;
+    private String description;
     private Double price;
     private int quantity;
     private Category category;
