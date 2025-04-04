@@ -15,6 +15,9 @@ public class CreateProductRequest {
     @NotBlank(message = "El producto debe tener nombre")
     private String name;
 
+    @NotBlank(message = "El producto debe tener una descripcion")
+    private String description;
+
     @NotNull(message = "El precio del producto debe ser mayor a 0")
     @DecimalMin(value = "0.01", message = "El precio del producto debe ser mayor a 0")
     private Double price;

@@ -10,4 +10,5 @@ public interface CategoryService {
     Category createCategory(String categoryName);
     Category updateCategory(Category category);
     void deleteCategory(Long categoryId);
+    boolean existsById(Long categoryId);
 }

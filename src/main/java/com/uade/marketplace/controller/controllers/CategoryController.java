@@ -1,4 +1,4 @@
-package com.uade.marketplace.controller;
+package com.uade.marketplace.controller.controllers;
 
 import com.uade.marketplace.models.Category;
 import org.springframework.web.bind.annotation.*;
