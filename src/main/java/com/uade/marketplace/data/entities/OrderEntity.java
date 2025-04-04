@@ -1,5 +1,6 @@
 package com.uade.marketplace.data.entities;
 
+import com.uade.marketplace.models.OrderStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,15 +18,13 @@ public class OrderEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany
-    @JoinTable(
-            name = "order_products",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    private List<ProductEntity> products;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
 
-    @ManyToOne()
+    @OneToMany(mappedBy = "order", orphanRemoval = true)
+    private List<OrderProductEntity> products;
+
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
 }

@@ -1,27 +1,42 @@
 package com.uade.marketplace.mappers;
 
 import com.uade.marketplace.data.entities.OrderEntity;
-import com.uade.marketplace.data.entities.ProductEntity;
+import com.uade.marketplace.data.entities.OrderProductEntity;
 import com.uade.marketplace.data.entities.UserEntity;
 import com.uade.marketplace.models.Order;
-import com.uade.marketplace.models.Product;
+import com.uade.marketplace.models.OrderProduct;
 
 import java.util.List;
 
 public class OrderMapper {
     public static Order toDomain(OrderEntity entity) {
-        List<Product> products = entity.getProducts()
+        List<OrderProduct> products = entity.getProducts()
                 .stream()
-                .map(ProductMapper::toDomain)
+                .map(OrderMapper::toDomain)
                 .toList();
-        return new Order(entity.getId(), products, entity.getUser().getId());
+
+        return new Order(entity.getId(), products, entity.getStatus(), entity.getUser().getId());
     }
 
     public static OrderEntity toEntity(Order order, UserEntity user) {
-        List<ProductEntity> productEntities = order.getProducts()
+        List<OrderProductEntity> productEntities = order.getProducts()
                 .stream()
-                .map(ProductMapper::toEntity)
+                .map(OrderMapper::toEntity)
                 .toList();
-        return new OrderEntity(order.getId(), productEntities, user);
+        return new OrderEntity(order.getId(), order.getStatus(), productEntities, user);
+    }
+
+    public static OrderProduct toDomain(OrderProductEntity entity) {
+        return new OrderProduct(entity.getProductId(), entity.getProductName(), entity.getQuantity(), entity.getPrice());
+    }
+
+    public static OrderProductEntity toEntity(OrderProduct orderProduct) {
+        return OrderProductEntity.builder()
+                .productId(orderProduct.getProductId())
+                .productName(orderProduct.getProductName())
+                .price(orderProduct.getPrice())
+                .quantity(orderProduct.getQuantity())
+                .build();
+
     }
 }
