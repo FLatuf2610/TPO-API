@@ -1,16 +1,17 @@
 package com.uade.marketplace.service.order;
 
+import com.uade.marketplace.data.repositories.OrderRepository;
 import com.uade.marketplace.models.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 public class OrderServiceImpl implements OrderService {
-    private final OrderService orderService;
+    private final OrderRepository orderRepository;
 
     @Autowired
-    public OrderServiceImpl(OrderService orderService) {
-        this.orderService = orderService;
+    public OrderServiceImpl(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
     }
 
     @Override

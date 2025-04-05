@@ -3,8 +3,6 @@ package com.uade.marketplace.data.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
-
 @Entity
 @Table(name = "product")
 @Data
@@ -27,7 +25,4 @@ public class ProductEntity {
     @ManyToOne()
     @JoinColumn(name = "user_id")
     private UserEntity user;
-
-    @ManyToMany(mappedBy = "products")
-    private List<OrderEntity> orders;
 }

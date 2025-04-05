@@ -13,10 +13,4 @@ import java.util.Optional;
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
     @Query("SELECT p FROM ProductEntity p WHERE p.category.id = :categoryId")
     List<ProductEntity> findByCategoryId(@Param("categoryId") Long categoryId);
-
-    @Query("SELECT p FROM ProductEntity p WHERE p.user.id = :userId")
-    List<ProductEntity> findByUserId(@Param("userId") Long userId);
-
-    @Query("SELECT p FROM ProductEntity p WHERE p.order.id = :orderId")
-    List<ProductEntity> findByOrderId(@Param("orderId") Long orderId);
 }
