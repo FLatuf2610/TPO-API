@@ -3,10 +3,7 @@ package com.uade.marketplace.service.product;
 import com.uade.marketplace.controller.dto.request.product.CreateProductRequest;
 import com.uade.marketplace.data.entities.ProductEntity;
 import com.uade.marketplace.data.repositories.ProductRepository;
-import com.uade.marketplace.exceptions.category.CategoryNotFoundException;
-import com.uade.marketplace.exceptions.product.NotEnoughStockException;
 import com.uade.marketplace.exceptions.product.ProductNotFoundException;
-import com.uade.marketplace.mappers.CategoryMapper;
 import com.uade.marketplace.mappers.ProductMapper;
 import com.uade.marketplace.models.Product;
 import com.uade.marketplace.service.category.CategoryService;
@@ -18,12 +15,10 @@ import java.util.List;
 @Service
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
-    private final CategoryService categoryService;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository, CategoryService categoryService) {
+    public ProductServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
-        this.categoryService = categoryService;
     }
 
     @Override
@@ -51,11 +46,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product createProduct(CreateProductRequest request) {
-        boolean categoryExists = categoryService.existsById(request.getCategory().getId());
-        if (!categoryExists) {
-            throw new CategoryNotFoundException("La categoria del producto no existe");
-        }
-
         ProductEntity productEntity = ProductMapper.toEntity(request);
         return ProductMapper.toDomain(productRepository.save(productEntity));
     }
@@ -65,18 +55,11 @@ public class ProductServiceImpl implements ProductService {
         ProductEntity existingProduct = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException("El producto no existe"));
 
-        boolean categoryExists = categoryService.existsById(request.getCategory().getId());
-        if (!categoryExists) {
-            throw new CategoryNotFoundException("La categoria del producto no existe");
-        }
+        Product domain = ProductMapper.toDomain(existingProduct);
+        domain.update(request);
 
-        existingProduct.setName(request.getName());
-        existingProduct.setDescription(request.getDescription());
-        existingProduct.setPrice(request.getPrice());
-        existingProduct.setQuantity(request.getQuantity());
-        existingProduct.setCategory(CategoryMapper.toEntity(request.getCategory()));
-
-        return ProductMapper.toDomain(productRepository.save(existingProduct));
+        ProductEntity updatedEntity = ProductMapper.toEntity(domain);
+        return ProductMapper.toDomain(productRepository.save(updatedEntity));
     }
 
     @Override
@@ -87,16 +70,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void sellProduct(Product product, int quantity) {
-        ProductEntity productEntity = productRepository.findById(product.getId())
+    public void sellProduct(Long productId, int quantity) {
+        ProductEntity productEntity = productRepository.findById(productId)
                 .orElseThrow(() -> new ProductNotFoundException("El producto no existe"));
 
-        int newStock = productEntity.getQuantity() - quantity;
-        if (newStock <= 0) {
-            throw new NotEnoughStockException("No hay suficiente stock del producto " + productEntity.getName() + "para continuar la venta");
-        }
+        Product domain = ProductMapper.toDomain(productEntity);
+        domain.sell(quantity);
 
-        productEntity.setQuantity(newStock);
-        productRepository.save(productEntity);
+        ProductEntity updatedEntity = ProductMapper.toEntity(domain);
+        productRepository.save(updatedEntity);
     }
 }

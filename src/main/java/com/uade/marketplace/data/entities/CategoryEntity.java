@@ -16,6 +16,6 @@ public class CategoryEntity {
     private Long id;
     private String name;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.PERSIST)
     private List<ProductEntity> products;
 }
