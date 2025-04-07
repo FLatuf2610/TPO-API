@@ -6,7 +6,6 @@ import com.uade.marketplace.data.repositories.ProductRepository;
 import com.uade.marketplace.exceptions.product.ProductNotFoundException;
 import com.uade.marketplace.mappers.ProductMapper;
 import com.uade.marketplace.models.Product;
-import com.uade.marketplace.service.category.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
