@@ -1,5 +1,5 @@
 package com.uade.marketplace.models;
 
-public enum UserType {
+public enum Role {
     VENDEDOR, COMPRADOR
 }
