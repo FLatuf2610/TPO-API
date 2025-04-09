@@ -17,4 +17,6 @@ public class User {
     private String password;
     private List<Product> products;
     private List<Order> orders;
+    private UserType userType;
+
 }
