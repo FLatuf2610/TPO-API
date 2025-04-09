@@ -1,6 +1,6 @@
 package com.uade.marketplace.controller.dto.request.user;
 
-import com.uade.marketplace.models.UserType;
+import com.uade.marketplace.models.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -30,6 +30,5 @@ public class UserRequest {
     @Size(min = 6, message = "La contraseña debe tener al menos 6 caracteres")
     private String password;
 
-    @NotNull(message = "El tipo de usuario es obligatorio")
-    private UserType userType;
+    private Role role;
 }
