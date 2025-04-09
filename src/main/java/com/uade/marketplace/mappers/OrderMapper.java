@@ -5,7 +5,6 @@ import com.uade.marketplace.data.entities.OrderProductEntity;
 import com.uade.marketplace.data.entities.UserEntity;
 import com.uade.marketplace.models.Order;
 import com.uade.marketplace.models.OrderProduct;
-import com.uade.marketplace.models.User;
 
 import java.util.List;
 
@@ -19,13 +18,12 @@ public class OrderMapper {
         return new Order(entity.getId(), products, entity.getStatus(), entity.getUser().getId());
     }
 
-    public static OrderEntity toEntity(Order order, User user) {
+    public static OrderEntity toEntity(Order order, UserEntity user) {
         List<OrderProductEntity> productEntities = order.getProducts()
                 .stream()
                 .map(OrderMapper::toEntity)
                 .toList();
-        UserEntity userEntity = UserMapper.toEntity(user);
-        return new OrderEntity(order.getId(), order.getStatus(), productEntities, userEntity);
+        return new OrderEntity(order.getId(), order.getStatus(), productEntities, user);
     }
 
     public static OrderProduct toDomain(OrderProductEntity entity) {

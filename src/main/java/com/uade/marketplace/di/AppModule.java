@@ -6,7 +6,6 @@ import com.uade.marketplace.data.repositories.CategoryRepository;
 import com.uade.marketplace.data.repositories.OrderRepository;
 import com.uade.marketplace.data.repositories.ProductRepository;
 import com.uade.marketplace.data.repositories.UserRepository;
-import com.uade.marketplace.mappers.UserMapper;
 import com.uade.marketplace.service.category.CategoryService;
 import com.uade.marketplace.service.category.CategoryServiceImpl;
 import com.uade.marketplace.service.order.OrderService;
