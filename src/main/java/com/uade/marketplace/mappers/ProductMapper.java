@@ -15,6 +15,7 @@ public class ProductMapper {
                 .description(entity.getDescription())
                 .price(entity.getPrice())
                 .quantity(entity.getQuantity())
+                .imageUrl(entity.getImageUrl())
                 .category(CategoryMapper.toDomain(entity.getCategory()))
                 .userId(entity.getUser().getId())
                 .build();
@@ -27,6 +28,7 @@ public class ProductMapper {
                 .description(domain.getDescription())
                 .price(domain.getPrice())
                 .quantity(domain.getQuantity())
+                .imageUrl(domain.getImageUrl())
                 .category(CategoryMapper.toEntity(domain.getCategory()))
                 .build();
     }
@@ -37,15 +39,16 @@ public class ProductMapper {
                 .description(request.getDescription())
                 .price(request.getPrice())
                 .quantity(request.getQuantity())
+                .imageUrl(request.getImageUrl())
                 .category(CategoryMapper.toEntity(request.getCategory()))
                 .build();
     }
 
     public static ListProduct toListProd(Product product) {
-        return new ListProduct(product.getId(), product.getName(), product.getPrice(), product.getQuantity(), product.getCategory());
+        return new ListProduct(product.getId(), product.getName(), product.getPrice(), product.getQuantity(), product.getImageUrl(), product.getCategory());
     }
 
     public static ProductDetail toDetail(Product product, User user) {
-        return new ProductDetail(product.getId(), product.getName(), product.getDescription(), product.getPrice(), product.getQuantity(), product.getCategory(), UserMapper.toNoProducts(user));
+        return new ProductDetail(product.getId(), product.getName(), product.getDescription(), product.getPrice(), product.getQuantity(), product.getImageUrl(), product.getCategory(), UserMapper.toNoProducts(user));
     }
 }

@@ -70,12 +70,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void sellProduct(Long productId, int quantity) {
+    public void sellProduct(Long productId, int quantity, Long buyerId) {
         ProductEntity productEntity = productRepository.findById(productId)
                 .orElseThrow(() -> new ProductNotFoundException("El producto no existe"));
 
         Product domain = ProductMapper.toDomain(productEntity);
-        domain.sell(quantity);
+        domain.sell(quantity, buyerId);
 
         ProductEntity updatedEntity = ProductMapper.toEntity(domain);
         productRepository.save(updatedEntity);

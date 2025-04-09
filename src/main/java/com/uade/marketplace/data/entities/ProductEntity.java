@@ -17,6 +17,7 @@ public class ProductEntity {
     private String description;
     private Double price;
     private int quantity;
+    private String imageUrl;
 
     @ManyToOne()
     @JoinColumn(name = "category_id")

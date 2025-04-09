@@ -13,5 +13,6 @@ public class ListProduct {
     private String name;
     private double price;
     private int quantity;
+    private String imageUrl;
     private Category category;
 }
