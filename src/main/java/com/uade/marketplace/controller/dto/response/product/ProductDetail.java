@@ -15,6 +15,7 @@ public class ProductDetail {
     private String description;
     private Double price;
     private int quantity;
+    private String imageUrl;
     private Category category;
     private UserNoProducts user;
 }

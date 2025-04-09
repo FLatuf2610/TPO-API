@@ -1,14 +1,17 @@
 package com.uade.marketplace.di;
 
+import com.uade.marketplace.controller.web_services.image.ImageWebService;
+import com.uade.marketplace.controller.web_services.image.ImageWebServiceImpl;
 import com.uade.marketplace.controller.web_services.product.ProductWebService;
 import com.uade.marketplace.controller.web_services.product.ProductWebServiceImpl;
 import com.uade.marketplace.data.repositories.CategoryRepository;
 import com.uade.marketplace.data.repositories.OrderRepository;
 import com.uade.marketplace.data.repositories.ProductRepository;
 import com.uade.marketplace.data.repositories.UserRepository;
-import com.uade.marketplace.mappers.UserMapper;
 import com.uade.marketplace.service.category.CategoryService;
 import com.uade.marketplace.service.category.CategoryServiceImpl;
+import com.uade.marketplace.service.image.ImageService;
+import com.uade.marketplace.service.image.ImageServiceImpl;
 import com.uade.marketplace.service.order.OrderService;
 import com.uade.marketplace.service.order.OrderServiceImpl;
 import com.uade.marketplace.service.product.ProductService;
@@ -41,9 +44,19 @@ public class AppModule {
         return new OrderServiceImpl(orderRepository);
     }
 
+    @Bean
+    ImageService imageService() {
+        return new ImageServiceImpl();
+    }
+
     //WebServices
     @Bean
     ProductWebService productWebService(ProductService productService, UserService userService) {
         return new ProductWebServiceImpl(productService, userService);
+    }
+
+    @Bean
+    ImageWebService imageWebService(ImageService imageService) {
+        return new ImageWebServiceImpl(imageService);
     }
 }
