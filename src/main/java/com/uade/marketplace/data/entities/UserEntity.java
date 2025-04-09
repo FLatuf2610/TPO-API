@@ -1,6 +1,6 @@
 package com.uade.marketplace.data.entities;
 
-import com.uade.marketplace.models.UserType;
+import com.uade.marketplace.models.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,7 +20,7 @@ public class UserEntity {
     private String lastName;
     private String email;
     private String password;
-    private UserType userType;
+    private Role role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<ProductEntity> products;
@@ -29,12 +29,12 @@ public class UserEntity {
     private List<OrderEntity> orders;
 
     public UserEntity(String name, String lastName, String email, String password,
-                      UserType userType, List<ProductEntity> products, List<OrderEntity> orders) {
+                      Role role, List<ProductEntity> products, List<OrderEntity> orders) {
         this.name = name;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.userType = userType;
+        this.role = role;
         this.products = products;
         this.orders = orders;
     }

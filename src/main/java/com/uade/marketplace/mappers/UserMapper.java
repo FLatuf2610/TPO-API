@@ -8,7 +8,6 @@ import com.uade.marketplace.data.entities.UserEntity;
 import com.uade.marketplace.models.Order;
 import com.uade.marketplace.models.Product;
 import com.uade.marketplace.models.User;
-import org.hibernate.annotations.Comment;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -32,7 +31,7 @@ public class UserMapper {
                 .stream()
                 .map(OrderMapper::toDomain)
                 .toList();
-        return new User(userEntity.getId(), userEntity.getName(), userEntity.getLastName(), userEntity.getEmail(), userEntity.getPassword(), products, orders, userEntity.getUserType());
+        return new User(userEntity.getId(), userEntity.getName(), userEntity.getLastName(), userEntity.getEmail(), userEntity.getPassword(), products, orders, userEntity.getRole());
     }
 
     public static UserEntity toEntity(User user) {
@@ -41,7 +40,7 @@ public class UserMapper {
         List<OrderEntity> orders = user.getOrders().stream()
                 .map(order -> OrderMapper.toEntity(order, user))
                 .toList();
-        return new UserEntity(user.getId(), user.getName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getUserType(), products, orders);
+        return new UserEntity(user.getId(), user.getName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getRole(), products, orders);
     }
 
     public static UserEntity requestToEntity(UserRequest userRequest) {
@@ -51,7 +50,7 @@ public class UserMapper {
                 userRequest.getLastName(),
                 userRequest.getEmail(),
                 userRequest.getPassword(),
-                userRequest.getUserType(),
+                userRequest.getRole(),
                 List.of(),
                 List.of()
         );
@@ -67,7 +66,7 @@ public class UserMapper {
                 userRequest.getPassword(),
                 List.of(),
                 List.of(),
-                userRequest.getUserType()
+                userRequest.getRole()
         );
     }
 }
