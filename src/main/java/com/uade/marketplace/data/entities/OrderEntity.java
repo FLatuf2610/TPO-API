@@ -3,6 +3,7 @@ package com.uade.marketplace.data.entities;
 import com.uade.marketplace.models.OrderStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,4 +29,8 @@ public class OrderEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "payment_info_id")
+    private PaymentInfoEntity paymentInfo;
 }

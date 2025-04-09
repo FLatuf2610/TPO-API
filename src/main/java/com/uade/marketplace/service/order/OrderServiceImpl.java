@@ -1,5 +1,7 @@
 package com.uade.marketplace.service.order;
 
+import com.uade.marketplace.controller.dto.request.order.CreateOrderRequest;
+import com.uade.marketplace.controller.dto.request.order.PayOrderRequest;
 import com.uade.marketplace.data.repositories.OrderRepository;
 import com.uade.marketplace.models.Order;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +22,22 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order createOrder(Order order) {
+    public Order getOrderById(Long id) {
         return null;
     }
 
     @Override
-    public void payOrder(Long orderId) {
+    public Order createOrder(CreateOrderRequest request) {
+        return null;
+    }
+
+    @Override
+    public Order payOrder(Long orderId, PayOrderRequest request) {
+        return null;
+    }
+
+    @Override
+    public void deleteOrder(Long orderId) {
 
     }
 }
