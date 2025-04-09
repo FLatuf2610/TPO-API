@@ -3,7 +3,10 @@ package com.uade.marketplace.data.entities;
 import com.uade.marketplace.models.Role;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -11,7 +14,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserEntity {
+@Builder
+public class UserEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,6 +24,8 @@ public class UserEntity {
     private String lastName;
     private String email;
     private String password;
+
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -28,14 +34,33 @@ public class UserEntity {
     @OneToMany(mappedBy = "user")
     private List<OrderEntity> orders;
 
-    public UserEntity(String name, String lastName, String email, String password,
-                      Role role, List<ProductEntity> products, List<OrderEntity> orders) {
-        this.name = name;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-        this.products = products;
-        this.orders = orders;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
+
+    @Override
+    public String getUsername() {
+        return "";
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return UserDetails.super.isAccountNonExpired();
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return UserDetails.super.isAccountNonLocked();
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return UserDetails.super.isCredentialsNonExpired();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return UserDetails.super.isEnabled();
     }
 }
