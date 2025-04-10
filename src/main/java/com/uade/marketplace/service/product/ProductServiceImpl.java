@@ -12,10 +12,12 @@ import com.uade.marketplace.data.repositories.UserRepository;
 import com.uade.marketplace.exceptions.category.CategoryNotFoundException;
 import com.uade.marketplace.exceptions.product.ProductNotFoundException;
 import com.uade.marketplace.exceptions.product.UserNotAllowedToModifyOtherUserProductException;
+import com.uade.marketplace.exceptions.user.UserNotAllowedException;
 import com.uade.marketplace.exceptions.user.UserNotFoundException;
 import com.uade.marketplace.mappers.CategoryMapper;
 import com.uade.marketplace.mappers.ProductMapper;
 import com.uade.marketplace.models.Product;
+import com.uade.marketplace.models.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -67,6 +69,10 @@ public class ProductServiceImpl implements ProductService {
         CategoryEntity categoryEntity = categoryRepository.findById(request.getCategory().getId())
                 .orElseThrow(() -> new CategoryNotFoundException("La categoria no existe"));
 
+        if (userEntity.getRole() != Role.VENDEDOR) {
+            throw new UserNotAllowedException("El usuario no tiene rol de vendedor");
+        }
+
         ProductEntity entity = new ProductEntity(
                 null,
                 request.getName(),
@@ -97,6 +103,10 @@ public class ProductServiceImpl implements ProductService {
             throw new UserNotAllowedToModifyOtherUserProductException("El usuario solo puede modificar sus propios productos");
         }
 
+        if (productEntity.getUser().getRole() != Role.VENDEDOR) {
+            throw new UserNotAllowedException("El usuario no tiene rol de vendedor");
+        }
+
         return ProductMapper.toDomain(productRepository.save(productEntity));
     }
 
@@ -104,8 +114,13 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProduct(DeleteProductRequest request) {
         ProductEntity productEntity = productRepository.findById(request.getProductId())
                 .orElseThrow(() -> new ProductNotFoundException("El producto a eliminar no existe"));
+
         if (request.getUserId() != productEntity.getUser().getId()) {
-            throw new UserNotAllowedToModifyOtherUserProductException("El usuario solo puede modificar sus propios productos");
+            throw new UserNotAllowedToModifyOtherUserProductException("El usuario solo puede eliminar sus propios productos");
+        }
+
+        if (productEntity.getUser().getRole() != Role.VENDEDOR) {
+            throw new UserNotAllowedException("El usuario no tiene rol de vendedor");
         }
 
         String imageUrl = productEntity.getImageUrl();

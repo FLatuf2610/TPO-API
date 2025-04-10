@@ -9,6 +9,8 @@ import com.uade.marketplace.data.entities.UserEntity;
 import com.uade.marketplace.data.repositories.CartProductRepository;
 import com.uade.marketplace.data.repositories.CartRepository;
 import com.uade.marketplace.data.repositories.ProductRepository;
+import com.uade.marketplace.exceptions.cart.NoActiveCartException;
+import com.uade.marketplace.exceptions.product.ProductNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +42,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public CartResponse getCartByUser(UserEntity user) {
         CartEntity cart = cartRepository.findByUser(user)
-                .orElseThrow(() -> new RuntimeException("No tienes un carrito activo"));
+                .orElseThrow(() -> new NoActiveCartException("No tienes un carrito activo"));
 
         return new CartResponse(cart.getId(), toCartProd(cart), total(cart));
     }
@@ -49,7 +51,7 @@ public class CartServiceImpl implements CartService {
     @Transactional
     public Double checkout(UserEntity user) {
         CartEntity cart = cartRepository.findByUser(user)
-                .orElseThrow(() -> new RuntimeException("No tienes un carrito activo"));
+                .orElseThrow(() -> new NoActiveCartException("No tienes un carrito activo"));
 
         if (cart.getProducts().isEmpty()) {
             throw new RuntimeException("No se puede realizar el checkout de un carrito vacío");
@@ -76,7 +78,7 @@ public class CartServiceImpl implements CartService {
     public CartResponse addItemToCart(UserEntity user, CartItemRequest request) {
 
         ProductEntity product = productRepository.findById(request.getProductId())
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+                .orElseThrow(() -> new ProductNotFoundException("Producto no encontrado"));
 
         if (product.getQuantity() < request.getQuantity()) {
             throw new RuntimeException("Stock insuficiente para el producto: " + product.getName());
@@ -127,12 +129,12 @@ public class CartServiceImpl implements CartService {
     @Override
     public CartResponse updateCartItem(UserEntity user, Long itemId, CartItemRequest request) {
         CartEntity cart = cartRepository.findByUser(user)
-                .orElseThrow(() -> new RuntimeException("No tienes un carrito activo"));
+                .orElseThrow(() -> new NoActiveCartException("No tienes un carrito activo"));
 
         CartProductEntity item = cart.getProducts().stream()
                 .filter(i -> i.getId().equals(itemId))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Item no encontrado en el carrito"));
+                .orElseThrow(() -> new ProductNotFoundException("Item no encontrado en el carrito"));
 
         ProductEntity product = item.getProduct();
 
@@ -149,12 +151,12 @@ public class CartServiceImpl implements CartService {
 
     public CartResponse removeItemFromCart(UserEntity user, Long itemId) {
         CartEntity cart = cartRepository.findByUser(user)
-                .orElseThrow(() -> new RuntimeException("No tienes un carrito activo"));
+                .orElseThrow(() -> new NoActiveCartException("No tienes un carrito activo"));
 
         CartProductEntity item = cart.getProducts().stream()
                 .filter(i -> i.getId().equals(itemId))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Item no encontrado en el carrito"));
+                .orElseThrow(() -> new ProductNotFoundException("Item no encontrado en el carrito"));
 
         cart.getProducts().remove(item);
         cartProductRepository.delete(item);
