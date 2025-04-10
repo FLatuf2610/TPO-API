@@ -11,6 +11,7 @@ import com.uade.marketplace.mappers.CategoryMapper;
 import com.uade.marketplace.exceptions.DBAccessException;
 import com.uade.marketplace.mappers.ProductMapper;
 import com.uade.marketplace.models.Product;
+import com.uade.marketplace.service.category.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -102,22 +103,6 @@ public class ProductServiceImpl implements ProductService {
         ProductEntity productEntity = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException("El producto a eliminar no existe"));
         productRepository.delete(productEntity);
-        } catch (DataAccessException e) {
-            throw new DBAccessException("Error al acceder a la base de datos", e);
-        }
-    }
-
-    @Override
-    public void sellProduct(Long productId, int quantity) {
-        try {
-            ProductEntity productEntity = productRepository.findById(productId)
-                    .orElseThrow(() -> new ProductNotFoundException("El producto no existe"));
-
-            Product domain = ProductMapper.toDomain(productEntity);
-            domain.sell(quantity);
-
-            ProductEntity updatedEntity = ProductMapper.toEntity(domain);
-            productRepository.save(updatedEntity);
         } catch (DataAccessException e) {
             throw new DBAccessException("Error al acceder a la base de datos", e);
         }

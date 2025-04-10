@@ -11,7 +11,10 @@ import org.springframework.stereotype.Service;
 
 import static com.uade.marketplace.mappers.UserMapper.toDomain;
 
+@Service
 public class UserServiceImpl implements UserService {
+
+    @Autowired    
     private final UserRepository userRepository;
 
 

@@ -1,5 +1,6 @@
 package com.uade.marketplace.mappers;
 
+import com.uade.marketplace.controller.dto.request.user.UserRequest;
 import com.uade.marketplace.controller.dto.response.user.UserNoProducts;
 import com.uade.marketplace.data.entities.CartEntity;
 import com.uade.marketplace.data.entities.ProductEntity;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class UserMapper {
     public static UserNoProducts toNoProducts(User user) {
         UserNoProducts userNoProducts = new UserNoProducts();
