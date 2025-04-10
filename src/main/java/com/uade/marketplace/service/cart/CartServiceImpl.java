@@ -112,6 +112,7 @@ public class CartServiceImpl implements CartService {
 
             CartProductEntity newItem = CartProductEntity.builder()
                     .product(product)
+                    .order(cart)
                     .quantity(request.getQuantity())
                     .build();
             cart.getProducts().add(newItem);

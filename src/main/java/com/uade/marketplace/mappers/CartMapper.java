@@ -19,19 +19,9 @@ public class CartMapper {
         return new Cart(entity.getId(), products, entity.getUser().getId());
     }
 
-    public static CartEntity toEntity(Cart cart, UserEntity userEntity, List<CartProductEntity> productEntities) {
-        return new CartEntity(cart.getId(), productEntities, userEntity);
-    }
-
     public static CartProduct toDomain(CartProductEntity entity) {
         return new CartProduct(ProductMapper.toDomain(entity.getProduct()), entity.getProduct().getQuantity());
     }
 
-    public static CartProductEntity toEntity(CartProduct cartProduct, ProductEntity productEntity) {
-        return CartProductEntity.builder()
-                .product(productEntity)
-                .quantity(cartProduct.getQuantity())
-                .build();
 
-    }
 }

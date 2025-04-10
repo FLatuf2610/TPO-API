@@ -30,6 +30,7 @@ public class SecurityConfig {
                         .permitAll()
                         .requestMatchers(HttpMethod.GET, "/images/**")
                         .permitAll()
+                        .requestMatchers(HttpMethod.POST, "/images/uploadImage").hasAnyAuthority(Role.VENDEDOR.name())
                         .requestMatchers(HttpMethod.POST, "/products").hasAuthority(Role.VENDEDOR.name())
                         .requestMatchers(HttpMethod.PUT, "/products/{id}").hasAuthority(Role.VENDEDOR.name())
                         .requestMatchers(HttpMethod.DELETE, "/products/{id}").hasAuthority(Role.VENDEDOR.name())
