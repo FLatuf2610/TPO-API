@@ -2,6 +2,7 @@ package com.uade.marketplace.models;
 
 import com.uade.marketplace.controller.dto.request.product.CreateProductRequest;
 import com.uade.marketplace.exceptions.product.NotEnoughStockException;
+import com.uade.marketplace.exceptions.product.UserCanNotBuyItsOwnProductsException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,17 +28,8 @@ public class Product {
             throw new NotEnoughStockException("No hay suficiente stock del producto " + getName() + "para continuar la venta");
         }
         if (buyerId.equals(userId)) {
-            throw new RuntimeException("");
+            throw new UserCanNotBuyItsOwnProductsException("El usuario no puede comprar sus propios productos");
         }
         quantity = newStock;
-    }
-
-    public void update(CreateProductRequest request) {
-        setName(request.getName());
-        setDescription(request.getDescription());
-        setPrice(request.getPrice());
-        setQuantity(request.getQuantity());
-        setImageUrl(request.getImageUrl());
-        setCategory(request.getCategory());
     }
 }

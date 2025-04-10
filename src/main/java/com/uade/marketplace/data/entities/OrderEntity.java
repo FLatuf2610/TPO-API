@@ -1,6 +1,10 @@
 package com.uade.marketplace.data.entities;
 
+import com.uade.marketplace.data.converter.OrderProductConverter;
+import com.uade.marketplace.data.converter.PaymentInfoConverter;
+import com.uade.marketplace.models.OrderProduct;
 import com.uade.marketplace.models.OrderStatus;
+import com.uade.marketplace.models.PaymentInfo;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,14 +27,15 @@ public class OrderEntity {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    @OneToMany(mappedBy = "order", orphanRemoval = true)
-    private List<OrderProductEntity> products;
+    @Convert(converter = OrderProductConverter.class)
+    @Column(columnDefinition = "TEXT")
+    private List<OrderProduct> products;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "payment_info_id")
-    private PaymentInfoEntity paymentInfo;
+    @Convert(converter = PaymentInfoConverter.class)
+    @Column(columnDefinition = "TEXT")
+    private PaymentInfo paymentInfo;
 }

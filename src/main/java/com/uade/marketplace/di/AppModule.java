@@ -29,8 +29,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @RequiredArgsConstructor
 public class AppModule {
-
-
     private final UserRepository repository;
 
     //Services
@@ -45,13 +43,13 @@ public class AppModule {
     }
 
     @Bean
-    ProductService productService(ProductRepository productRepository) {
-        return new ProductServiceImpl(productRepository);
+    ProductService productService(ProductRepository productRepository, UserRepository userRepository) {
+        return new ProductServiceImpl(productRepository, userRepository);
     }
 
     @Bean
-    OrderService orderService(OrderRepository orderRepository) {
-        return new OrderServiceImpl(orderRepository);
+    OrderService orderService(OrderRepository orderRepository, UserRepository userRepository, ProductRepository productRepository) {
+        return new OrderServiceImpl(orderRepository, userRepository, productRepository);
     }
 
     //WebServices

@@ -1,6 +1,7 @@
 package com.uade.marketplace.models;
 
 import com.uade.marketplace.controller.dto.request.order.PayOrderRequest;
+import com.uade.marketplace.exceptions.order.OrderCanNotBePayedException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -38,7 +39,7 @@ public class Order {
 
     public void payOrder(PayOrderRequest request) {
         if (status != OrderStatus.PENDING) {
-            throw new RuntimeException("La orden ya no puede ser pagada");
+            throw new OrderCanNotBePayedException("La orden ya no puede ser pagada");
         }
         paymentInfo = new PaymentInfo(
                 request.getPaymentMethod(),
