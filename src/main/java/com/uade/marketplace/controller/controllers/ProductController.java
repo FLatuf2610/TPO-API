@@ -1,6 +1,7 @@
 package com.uade.marketplace.controller.controllers;
 
 import com.uade.marketplace.controller.dto.request.product.CreateProductRequest;
+import com.uade.marketplace.controller.dto.request.product.DeleteProductRequest;
 import com.uade.marketplace.controller.dto.response.product.DeleteProductResponse;
 import com.uade.marketplace.controller.dto.response.product.GetAllProductsResponse;
 import com.uade.marketplace.controller.dto.response.product.ListProduct;
@@ -52,8 +53,8 @@ public class ProductController {
         return ResponseEntity.ok(product);
     }
 
-    @DeleteMapping("/{id}")
-    ResponseEntity<DeleteProductResponse> deleteProduct(@PathVariable Long id) {
-        return ResponseEntity.ok(productWebService.deleteProduct(id));
+    @DeleteMapping()
+    ResponseEntity<DeleteProductResponse> deleteProduct(@RequestBody DeleteProductRequest request) {
+        return ResponseEntity.ok(productWebService.deleteProduct(request));
     }
 }

@@ -1,6 +1,7 @@
 package com.uade.marketplace.controller.web_services.product;
 
 import com.uade.marketplace.controller.dto.request.product.CreateProductRequest;
+import com.uade.marketplace.controller.dto.request.product.DeleteProductRequest;
 import com.uade.marketplace.controller.dto.response.product.DeleteProductResponse;
 import com.uade.marketplace.controller.dto.response.product.ListProduct;
 import com.uade.marketplace.controller.dto.response.product.ProductDetail;
@@ -63,8 +64,8 @@ public class ProductWebServiceImpl implements ProductWebService {
     }
 
     @Override
-    public DeleteProductResponse deleteProduct(Long id) {
-        productService.deleteProduct(id);
+    public DeleteProductResponse deleteProduct(DeleteProductRequest request) {
+        productService.deleteProduct(request);
         return new DeleteProductResponse("Producto eliminado correctamente");
     }
 }

@@ -4,10 +4,11 @@ import com.uade.marketplace.controller.config.JwtService;
 import com.uade.marketplace.controller.dto.request.AuthenticationRequest;
 import com.uade.marketplace.controller.dto.request.user.UserRequest;
 import com.uade.marketplace.controller.dto.response.AuthenticationResponse;
+import com.uade.marketplace.data.entities.CartEntity;
 import com.uade.marketplace.data.entities.UserEntity;
+import com.uade.marketplace.data.repositories.CartRepository;
 import com.uade.marketplace.data.repositories.UserRepository;
-import com.uade.marketplace.models.Role;
-import com.uade.marketplace.models.User;
+import com.uade.marketplace.mappers.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,6 +23,7 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final CartRepository cartRepository;
 
     public AuthenticationResponse register(UserRequest request) {
 
@@ -37,10 +39,17 @@ public class AuthenticationService {
                 .role(request.getRole())
                 .build();
 
-        repository.save(user);
+        UserEntity persistedUser = repository.save(user);
+            CartEntity userCart = CartEntity.builder()
+                    .user(persistedUser)
+                    .build();
+            cartRepository.save(userCart);
+
+
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
+                .user(UserMapper.toNoProducts(persistedUser))
                 .build();
     }
 
@@ -49,11 +58,12 @@ public class AuthenticationService {
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(),
                         request.getPassword()));
-        var user = repository.findByName(request.getUsername())
+        var user = repository.findByEmail(request.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
+                .user(UserMapper.toNoProducts(user))
                 .build();
     }
 }

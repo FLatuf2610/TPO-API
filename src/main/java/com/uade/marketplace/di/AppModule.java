@@ -42,8 +42,8 @@ public class AppModule {
     }
 
     @Bean
-    ProductService productService(ProductRepository productRepository, UserRepository userRepository) {
-        return new ProductServiceImpl(productRepository, userRepository);
+    ProductService productService(ProductRepository productRepository, UserRepository userRepository, CategoryRepository categoryRepository) {
+        return new ProductServiceImpl(productRepository, userRepository, categoryRepository);
     }
 
     @Bean

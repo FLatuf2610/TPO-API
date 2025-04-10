@@ -22,6 +22,15 @@ public class UserMapper {
         return userNoProducts;
     }
 
+    public static UserNoProducts toNoProducts(UserEntity user) {
+        UserNoProducts userNoProducts = new UserNoProducts();
+        userNoProducts.setId(user.getId());
+        userNoProducts.setEmail(user.getEmail());
+        userNoProducts.setName(user.getName());
+        userNoProducts.setLastName(user.getLastName());
+        return userNoProducts;
+    }
+
     public static User toDomain(UserEntity userEntity) {
         List<Product> products = userEntity.getProducts()
                 .stream()
