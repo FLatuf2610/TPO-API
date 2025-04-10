@@ -7,25 +7,23 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class Order {
+public class Cart {
     private Long id;
-    private List<OrderProduct> products;
+    private List<CartProduct> products;
     private Double total;
-    private OrderStatus status;
     private Long userId;
 
-    public Order(Long id, List<OrderProduct> products, OrderStatus status,Long userId) {
+    public Cart(Long id, List<CartProduct> products, Long userId) {
         this.id = id;
         this.products = products;
-        this.status = status;
         this.total = calculateTotal(products);
         this.userId = userId;
     }
 
-    public Double calculateTotal(List<OrderProduct> products) {
+    public Double calculateTotal(List<CartProduct> products) {
         return products
                 .stream()
-                .map(OrderProduct::getPrice)
-                .reduce(0.0, Double::sum);
+                .mapToDouble(product -> product.getProduct().getPrice() * product.getQuantity())
+                .sum();
     }
 }

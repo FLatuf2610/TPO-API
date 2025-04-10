@@ -1,15 +1,15 @@
 package com.uade.marketplace.models;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderProduct {
-    private Long productId;
-    private String productName;
+@Builder
+public class CartProduct {
+    private Product product;
     private int quantity;
-    private Double price;
 }

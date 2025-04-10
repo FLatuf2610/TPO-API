@@ -31,8 +31,8 @@ public class UserEntity implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<ProductEntity> products;
 
-    @OneToMany(mappedBy = "user")
-    private List<OrderEntity> orders;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private CartEntity cart;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

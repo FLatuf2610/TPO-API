@@ -21,7 +21,7 @@ public class User implements UserDetails {
     private String email;
     private String password;
     private List<Product> products;
-    private List<Order> orders;
+    private Cart cart;
     private Role role;
 
     @Override
