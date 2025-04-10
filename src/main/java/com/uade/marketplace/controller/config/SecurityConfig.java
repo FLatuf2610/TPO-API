@@ -32,6 +32,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/products/{id}").hasAuthority(Role.VENDEDOR.name())
                         .requestMatchers(HttpMethod.DELETE, "/products/{id}").hasAuthority(Role.VENDEDOR.name())
                         .requestMatchers(HttpMethod.GET, "/products/**").authenticated()
+                        .requestMatchers("/cart/**").hasAnyAuthority(Role.COMPRADOR.name())
                         .anyRequest()
                         .authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
