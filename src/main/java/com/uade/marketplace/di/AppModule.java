@@ -2,14 +2,11 @@ package com.uade.marketplace.di;
 
 import com.uade.marketplace.controller.web_services.product.ProductWebService;
 import com.uade.marketplace.controller.web_services.product.ProductWebServiceImpl;
-import com.uade.marketplace.data.repositories.CategoryRepository;
-import com.uade.marketplace.data.repositories.OrderRepository;
-import com.uade.marketplace.data.repositories.ProductRepository;
-import com.uade.marketplace.data.repositories.UserRepository;
+import com.uade.marketplace.data.repositories.*;
 import com.uade.marketplace.service.category.CategoryService;
 import com.uade.marketplace.service.category.CategoryServiceImpl;
-import com.uade.marketplace.service.order.OrderService;
-import com.uade.marketplace.service.order.OrderServiceImpl;
+import com.uade.marketplace.service.cart.CartService;
+import com.uade.marketplace.service.cart.CartServiceImpl;
 import com.uade.marketplace.service.product.ProductService;
 import com.uade.marketplace.service.product.ProductServiceImpl;
 import com.uade.marketplace.service.user.UserService;
@@ -50,8 +47,8 @@ public class AppModule {
     }
 
     @Bean
-    OrderService orderService(OrderRepository orderRepository) {
-        return new OrderServiceImpl(orderRepository);
+    CartService cartService(CartRepository cartRepository, ProductRepository productRepository, CartProductRepository cartProductRepository) {
+        return new CartServiceImpl(cartRepository, productRepository, cartProductRepository);
     }
 
     //WebServices
