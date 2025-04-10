@@ -21,37 +21,37 @@ public class ProductController {
     public ProductController(ProductWebService productWebService) {
         this.productWebService = productWebService;
     }
-
+    // GET --> {url}/products
     @GetMapping
     ResponseEntity<GetAllProductsResponse> getAllProducts() {
         List<ListProduct> products = productWebService.getAllProducts();
         return ResponseEntity.ok(new GetAllProductsResponse(products));
     }
-
+    // GET --> {url}/products/id
     @GetMapping("/{id}")
     ResponseEntity<ProductDetail> getProductById(@PathVariable Long id) {
         ProductDetail productDetail = productWebService.getProductById(id);
         return ResponseEntity.ok(productDetail);
     }
-
+    // GET --> {url}/products/category/{id}
     @GetMapping("category/{id}")
     ResponseEntity<GetAllProductsResponse> getProductsByCategoryId(@PathVariable Long id) {
         GetAllProductsResponse getAllProductsResponse = new GetAllProductsResponse(productWebService.getProductsByCategoryId(id));
         return ResponseEntity.ok(getAllProductsResponse);
     }
-
+    // POST --> {url}/products
     @PostMapping()
     ResponseEntity<ProductDetail> createProduct(@RequestBody CreateProductRequest request) {
         ProductDetail product = productWebService.createProduct(request);
         return new ResponseEntity<>(product, HttpStatus.CREATED);
     }
-
+    // PUT --> {url}/products/id
     @PutMapping("/{id}")
     ResponseEntity<ProductDetail> editProduct(@PathVariable("id") Long id, @RequestBody CreateProductRequest request) {
         ProductDetail product = productWebService.updateProduct(id, request);
         return ResponseEntity.ok(product);
     }
-
+    // DELETE --> {url}/products/id
     @DeleteMapping("/{id}")
     ResponseEntity<DeleteProductResponse> deleteProduct(@PathVariable Long id) {
         return ResponseEntity.ok(productWebService.deleteProduct(id));

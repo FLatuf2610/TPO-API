@@ -2,6 +2,7 @@ package com.uade.marketplace.models;
 
 import com.uade.marketplace.controller.dto.request.product.CreateProductRequest;
 import com.uade.marketplace.exceptions.product.NotEnoughStockException;
+import com.uade.marketplace.exceptions.product.InvalidQuantityException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +22,9 @@ public class Product {
     private Long userId;
 
     public void sell(int quantityToSell) {
+        if (quantityToSell <= 0) {
+            throw new InvalidQuantityException("La cantidad a vender debe ser mayor a cero");
+        }
         int newStock = quantity - quantityToSell;
         if (newStock < 0) {
             throw new NotEnoughStockException("No hay suficiente stock del producto " + getName() + "para continuar la venta");

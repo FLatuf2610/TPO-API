@@ -11,6 +11,12 @@ import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
+    /**
+     * Search products with a specific category
+     * 
+     * @param categoryId ID for the category.
+     * @return list of the products.
+     */
     @Query("SELECT p FROM ProductEntity p WHERE p.category.id = :categoryId")
     List<ProductEntity> findByCategoryId(@Param("categoryId") Long categoryId);
 }

@@ -8,6 +8,12 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
+    /**
+     * Retrieves all orders placed by a specific user.
+     *
+     * @param userId the ID of the user
+     * @return a list of orders associated with the user
+     */
     @Query("SELECT o from OrderEntity o WHERE o.user.id = :userId")
     List<OrderEntity> findOrdersByUserId(@Param("userId") Long userId);
 }

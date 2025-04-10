@@ -4,9 +4,11 @@ import com.uade.marketplace.controller.dto.request.product.CreateProductRequest;
 import com.uade.marketplace.data.entities.ProductEntity;
 import com.uade.marketplace.data.repositories.ProductRepository;
 import com.uade.marketplace.exceptions.product.ProductNotFoundException;
+import com.uade.marketplace.exceptions.DBAccessException;
 import com.uade.marketplace.mappers.ProductMapper;
 import com.uade.marketplace.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,9 +32,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getProductById(Long id) {
-        ProductEntity productEntity = productRepository.findById(id)
-                .orElseThrow(() -> new ProductNotFoundException("El producto que estas buscando no existe"));
-        return ProductMapper.toDomain(productEntity);
+        try {
+            ProductEntity productEntity = productRepository.findById(id)
+                    .orElseThrow(() -> new ProductNotFoundException("El producto que estas buscando no existe"));
+            return ProductMapper.toDomain(productEntity);
+        } catch (DataAccessException e) {
+            throw new DBAccessException("Error al acceder a la base de datos al buscar el producto", e);
+        }      
     }
 
     @Override
@@ -45,12 +51,17 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product createProduct(CreateProductRequest request) {
-        ProductEntity productEntity = ProductMapper.toEntity(request);
-        return ProductMapper.toDomain(productRepository.save(productEntity));
+        try {
+            ProductEntity productEntity = ProductMapper.toEntity(request);
+            return ProductMapper.toDomain(productRepository.save(productEntity));
+        } catch (DataAccessException e) {
+            throw new DBAccessException("Error al acceder a la base de datos", e);
+        }
     }
 
     @Override
     public Product updateProduct(Long id, CreateProductRequest request) {
+        try {
         ProductEntity existingProduct = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException("El producto no existe"));
 
@@ -59,24 +70,35 @@ public class ProductServiceImpl implements ProductService {
 
         ProductEntity updatedEntity = ProductMapper.toEntity(domain);
         return ProductMapper.toDomain(productRepository.save(updatedEntity));
+        } catch (DataAccessException e) {
+            throw new DBAccessException("Error al acceder a la base de datos al actualizar el producto", e);
+        }
     }
 
     @Override
     public void deleteProduct(Long id) {
+        try {
         ProductEntity productEntity = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException("El producto a eliminar no existe"));
         productRepository.delete(productEntity);
+        } catch (DataAccessException e) {
+            throw new DBAccessException("Error al acceder a la base de datos", e);
+        }
     }
 
     @Override
     public void sellProduct(Long productId, int quantity) {
-        ProductEntity productEntity = productRepository.findById(productId)
-                .orElseThrow(() -> new ProductNotFoundException("El producto no existe"));
+        try {
+            ProductEntity productEntity = productRepository.findById(productId)
+                    .orElseThrow(() -> new ProductNotFoundException("El producto no existe"));
 
-        Product domain = ProductMapper.toDomain(productEntity);
-        domain.sell(quantity);
+            Product domain = ProductMapper.toDomain(productEntity);
+            domain.sell(quantity);
 
-        ProductEntity updatedEntity = ProductMapper.toEntity(domain);
-        productRepository.save(updatedEntity);
+            ProductEntity updatedEntity = ProductMapper.toEntity(domain);
+            productRepository.save(updatedEntity);
+        } catch (DataAccessException e) {
+            throw new DBAccessException("Error al acceder a la base de datos", e);
+        }
     }
 }

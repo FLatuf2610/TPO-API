@@ -4,12 +4,10 @@ import com.uade.marketplace.models.Category;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 public class CreateProductRequest {
     @NotBlank(message = "El producto debe tener nombre")

@@ -9,18 +9,19 @@ import java.util.List;
 @RequestMapping("category")
 public class CategoryController {
 
+    // GET --> {url}/category
     @GetMapping
     List<Category> getAllCategories() {
         List<Category> categories = null;
         return categories;
     }
-
+    // GET --> {url}/category/id
     @GetMapping("/{id}")
     Category getCategoryById(@PathVariable Long id) {
         Category category = null;
         return category;
     }
-
+    // POST --> {url}/category
     @PostMapping
     Category createCategory(@RequestBody Category category) {
         Category newCategory;
