@@ -28,6 +28,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req -> req.requestMatchers("/user/register", "/user/authenticate")
                         .permitAll()
+                        .requestMatchers(HttpMethod.GET, "/images/**")
+                        .permitAll()
                         .requestMatchers(HttpMethod.POST, "/products").hasAuthority(Role.VENDEDOR.name())
                         .requestMatchers(HttpMethod.PUT, "/products/{id}").hasAuthority(Role.VENDEDOR.name())
                         .requestMatchers(HttpMethod.DELETE, "/products/{id}").hasAuthority(Role.VENDEDOR.name())
