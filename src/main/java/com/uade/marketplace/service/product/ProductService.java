@@ -12,5 +12,4 @@ public interface ProductService {
     Product createProduct(CreateProductRequest request);
     Product updateProduct(Long id, CreateProductRequest request);
     void deleteProduct(Long id);
-    void sellProduct(Long productId, int quantity);
 }

@@ -1,5 +1,6 @@
 package com.uade.marketplace.service.category;
 
+import com.uade.marketplace.controller.dto.request.category.CreateCategoryRequest;
 import com.uade.marketplace.data.entities.CategoryEntity;
 import com.uade.marketplace.data.repositories.CategoryRepository;
 import com.uade.marketplace.exceptions.category.CategoryAlreadyExistsException;
@@ -13,19 +14,15 @@ import java.util.List;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
-    private final CategoryRepository categoryRepository;
-
     @Autowired
-    public CategoryServiceImpl(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
+    private CategoryRepository categoryRepository;
 
     @Override
     public List<Category> getAllCategories() {
         List<CategoryEntity> categoryEntities = this.categoryRepository.findAll();
         List<Category> categories = new ArrayList<>();
 
-        categoryEntities.forEach( (c) -> categories.add(new Category(c.getId(), c.getName())) );
+        categoryEntities.forEach((c) -> categories.add(new Category(c.getId(), c.getName())));
 
         return categories;
     }
@@ -33,7 +30,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category getCategoryById(Long categoryId) {
         CategoryEntity categoryEntity = this.categoryRepository.findById(categoryId)
-                .orElseThrow( () -> new CategoryNotFoundException("La categoria que buscas no existe"));
+                .orElseThrow(() -> new CategoryNotFoundException("La categoria que buscas no existe"));
         return new Category(categoryEntity.getId(), categoryEntity.getName());
     }
 
@@ -52,8 +49,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category updateCategory(Category category) {
-        CategoryEntity entity = this.categoryRepository.findById(category.getId())
+    public Category updateCategory(Long id, CreateCategoryRequest category) {
+        CategoryEntity entity = this.categoryRepository.findById(id)
                 .orElseThrow(() -> new CategoryNotFoundException("La categoria no existe"));
         entity.setName(category.getName());
 

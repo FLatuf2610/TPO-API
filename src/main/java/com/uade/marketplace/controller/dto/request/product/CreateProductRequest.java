@@ -24,6 +24,9 @@ public class CreateProductRequest {
     @DecimalMin(value = "La cantidad del producto debe ser mayor a 0")
     private int quantity;
 
+    @NotBlank(message = "El producto debe contener una imagen")
+    private String imageUrl;
+
     @NotBlank(message = "La categoria no puede ser nula")
     private Category category;
 

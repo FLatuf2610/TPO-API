@@ -2,8 +2,12 @@ package com.uade.marketplace.service.product;
 
 import com.uade.marketplace.controller.dto.request.product.CreateProductRequest;
 import com.uade.marketplace.data.entities.ProductEntity;
+import com.uade.marketplace.data.entities.UserEntity;
 import com.uade.marketplace.data.repositories.ProductRepository;
+import com.uade.marketplace.data.repositories.UserRepository;
 import com.uade.marketplace.exceptions.product.ProductNotFoundException;
+import com.uade.marketplace.exceptions.user.UserNotFoundException;
+import com.uade.marketplace.mappers.CategoryMapper;
 import com.uade.marketplace.exceptions.DBAccessException;
 import com.uade.marketplace.mappers.ProductMapper;
 import com.uade.marketplace.models.Product;
@@ -16,10 +20,12 @@ import java.util.List;
 @Service
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository) {
+    public ProductServiceImpl(ProductRepository productRepository, UserRepository userRepository) {
         this.productRepository = productRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -52,24 +58,39 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product createProduct(CreateProductRequest request) {
         try {
-            ProductEntity productEntity = ProductMapper.toEntity(request);
-            return ProductMapper.toDomain(productRepository.save(productEntity));
+            UserEntity userEntity = userRepository.findById(request.getUserId())
+                    .orElseThrow(() -> new UserNotFoundException("El usuario no existe"));
+
+            ProductEntity entity = new ProductEntity(
+                    null,
+                    request.getName(),
+                    request.getDescription(),
+                    request.getPrice(),
+                    request.getQuantity(),
+                    request.getImageUrl(),
+                    CategoryMapper.toEntity(request.getCategory()),
+                    userEntity
+            );
+
+            return ProductMapper.toDomain(productRepository.save(entity));
         } catch (DataAccessException e) {
-            throw new DBAccessException("Error al acceder a la base de datos", e);
+            throw new DBAccessException("Error al intentar conectar con la base de datos");
         }
     }
 
     @Override
     public Product updateProduct(Long id, CreateProductRequest request) {
         try {
-        ProductEntity existingProduct = productRepository.findById(id)
-                .orElseThrow(() -> new ProductNotFoundException("El producto no existe"));
+            ProductEntity existingProduct = productRepository.findById(id)
+                    .orElseThrow(() -> new ProductNotFoundException("El producto no existe"));
 
-        Product domain = ProductMapper.toDomain(existingProduct);
-        domain.update(request);
+            productEntity.setName(request.getName());
+            productEntity.setDescription(request.getDescription());
+            productEntity.setPrice(request.getPrice());
+            productEntity.setQuantity(request.getQuantity());
+            productEntity.setCategory(CategoryMapper.toEntity(request.getCategory()));
 
-        ProductEntity updatedEntity = ProductMapper.toEntity(domain);
-        return ProductMapper.toDomain(productRepository.save(updatedEntity));
+            return ProductMapper.toDomain(productRepository.save(productEntity));
         } catch (DataAccessException e) {
             throw new DBAccessException("Error al acceder a la base de datos al actualizar el producto", e);
         }

@@ -1,11 +1,13 @@
 package com.uade.marketplace.mappers;
 
 import com.uade.marketplace.controller.dto.response.user.UserNoProducts;
+import com.uade.marketplace.data.entities.CartEntity;
 import com.uade.marketplace.data.entities.ProductEntity;
 import com.uade.marketplace.data.entities.UserEntity;
-import com.uade.marketplace.models.Order;
+import com.uade.marketplace.models.Cart;
 import com.uade.marketplace.models.Product;
 import com.uade.marketplace.models.User;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -23,10 +25,6 @@ public class UserMapper {
                 .stream()
                 .map(ProductMapper::toDomain)
                 .toList();
-        List<Order> orders = userEntity.getOrders()
-                .stream()
-                .map(OrderMapper::toDomain)
-                .toList();
-        return new User(userEntity.getId(), userEntity.getName(), userEntity.getLastName(), userEntity.getEmail(), userEntity.getPassword(), products, orders);
+        return new User(userEntity.getId(), userEntity.getName(), userEntity.getLastName(), userEntity.getEmail(), userEntity.getPassword(), products, CartMapper.toDomain(userEntity.getCart()), userEntity.getRole());
     }
 }
