@@ -17,4 +17,9 @@ public class ImageWebServiceImpl implements ImageWebService {
     public ImageResponse save(MultipartFile file) {
         return new ImageResponse(imageService.save(file));
     }
+
+    @Override
+    public byte[] getImage(Long id) {
+        return imageService.getImage(id);
+    }
 }

@@ -6,6 +6,7 @@ import com.uade.marketplace.data.entities.CategoryEntity;
 import com.uade.marketplace.data.entities.ProductEntity;
 import com.uade.marketplace.data.entities.UserEntity;
 import com.uade.marketplace.data.repositories.CategoryRepository;
+import com.uade.marketplace.data.repositories.ProductImageRepository;
 import com.uade.marketplace.data.repositories.ProductRepository;
 import com.uade.marketplace.data.repositories.UserRepository;
 import com.uade.marketplace.exceptions.category.CategoryNotFoundException;
@@ -25,12 +26,14 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
+    private final ProductImageRepository productImageRepository;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository, UserRepository userRepository, CategoryRepository categoryRepository) {
+    public ProductServiceImpl(ProductRepository productRepository, UserRepository userRepository, CategoryRepository categoryRepository, ProductImageRepository productImageRepository) {
         this.productRepository = productRepository;
         this.userRepository = userRepository;
         this.categoryRepository = categoryRepository;
+        this.productImageRepository = productImageRepository;
     }
 
     @Override
@@ -104,6 +107,10 @@ public class ProductServiceImpl implements ProductService {
         if (request.getUserId() != productEntity.getUser().getId()) {
             throw new UserNotAllowedToModifyOtherUserProductException("El usuario solo puede modificar sus propios productos");
         }
+
+        String imageUrl = productEntity.getImageUrl();
+        Long imageId = Long.parseLong(imageUrl.substring(imageUrl.lastIndexOf("/") + 1));
+        productImageRepository.deleteById(imageId);
 
         productRepository.delete(productEntity);
     }
