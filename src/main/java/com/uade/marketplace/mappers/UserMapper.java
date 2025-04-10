@@ -29,13 +29,4 @@ public class UserMapper {
                 .toList();
         return new User(userEntity.getId(), userEntity.getName(), userEntity.getLastName(), userEntity.getEmail(), userEntity.getPassword(), products, CartMapper.toDomain(userEntity.getCart()), userEntity.getRole());
     }
-
-    public static UserEntity toEntity(User user) {
-        List<ProductEntity> products = user
-                .getProducts().stream().map(ProductMapper::toEntity).toList();
-
-        return new UserEntity(user.getId(), user.getName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getRole(), products, CartMapper.toEntity(user.getCart(), user));
-    }
-
-
 }
