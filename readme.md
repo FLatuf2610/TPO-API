@@ -75,6 +75,14 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
 - `DELETE /cart/items/{itemId}`: Eliminar producto del carrito
 - `POST /cart/checkout`: Finalizar compra
 
+### Category
+
+- `GET /catetory`: Obtener todos los categories
+- `GET /catetory/{id}`: Obtener category por ID
+- `POST /catetory`: Crear nuevo category (solo admins)
+- `PUT /catetory/{id}`: Actualizar category (solo admins)
+- `DELETE /catetory/{id}`: Eliminar category (solo admins)
+
 ## Ejemplos de uso con cURL
 
 ### Autenticación y obtención de token
