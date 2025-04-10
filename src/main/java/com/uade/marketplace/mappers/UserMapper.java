@@ -10,7 +10,9 @@ import com.uade.marketplace.models.Product;
 import com.uade.marketplace.models.User;
 import org.springframework.stereotype.Component;
 
+import javax.swing.text.Caret;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class UserMapper {
@@ -36,6 +38,8 @@ public class UserMapper {
                 .stream()
                 .map(ProductMapper::toDomain)
                 .toList();
-        return new User(userEntity.getId(), userEntity.getName(), userEntity.getLastName(), userEntity.getEmail(), userEntity.getPassword(), products, CartMapper.toDomain(userEntity.getCart()), userEntity.getRole());
+
+        Cart cart = userEntity.getCart() != null ? CartMapper.toDomain(userEntity.getCart()) : new Cart();
+        return new User(userEntity.getId(), userEntity.getName(), userEntity.getLastName(), userEntity.getEmail(), userEntity.getPassword(), products, cart, userEntity.getRole());
     }
 }
