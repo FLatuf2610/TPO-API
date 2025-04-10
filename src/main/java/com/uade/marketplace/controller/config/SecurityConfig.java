@@ -1,8 +1,10 @@
 package com.uade.marketplace.controller.config;
 
+import com.uade.marketplace.models.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -26,6 +28,10 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req -> req.requestMatchers("/user/register", "/user/authenticate")
                         .permitAll()
+                        .requestMatchers(HttpMethod.POST, "/products").hasAuthority(Role.VENDEDOR.name())
+                        .requestMatchers(HttpMethod.PUT, "/products/{id}").hasAuthority(Role.VENDEDOR.name())
+                        .requestMatchers(HttpMethod.DELETE, "/products/{id}").hasAuthority(Role.VENDEDOR.name())
+                        .requestMatchers(HttpMethod.GET, "/products/**").authenticated()
                         .anyRequest()
                         .authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
