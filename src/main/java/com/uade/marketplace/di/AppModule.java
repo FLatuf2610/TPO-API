@@ -10,6 +10,7 @@ import com.uade.marketplace.service.category.CategoryServiceImpl;
 import com.uade.marketplace.service.cart.CartService;
 import com.uade.marketplace.service.cart.CartServiceImpl;
 import com.uade.marketplace.service.image.ImageService;
+import com.uade.marketplace.service.image.ImageServiceImpl;
 import com.uade.marketplace.service.product.ProductService;
 import com.uade.marketplace.service.product.ProductServiceImpl;
 import com.uade.marketplace.service.user.UserService;
@@ -30,15 +31,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class AppModule {
 
-
     private final UserRepository repository;
 
-    //Services
-    @Bean
-    CategoryService categoryService(CategoryRepository categoryRepository) {
-        return new CategoryServiceImpl(categoryRepository);
-    }
-
+    // Services
     @Bean
     UserService userService(UserRepository userRepository) {
         return new UserServiceImpl(userRepository);
@@ -50,11 +45,12 @@ public class AppModule {
     }
 
     @Bean
-    CartService cartService(CartRepository cartRepository, ProductRepository productRepository, CartProductRepository cartProductRepository) {
+    CartService cartService(CartRepository cartRepository, ProductRepository productRepository,
+            CartProductRepository cartProductRepository) {
         return new CartServiceImpl(cartRepository, productRepository, cartProductRepository);
     }
 
-    //WebServices
+    // WebServices
     @Bean
     ProductWebService productWebService(ProductService productService, UserService userService) {
         return new ProductWebServiceImpl(productService, userService);
@@ -65,7 +61,12 @@ public class AppModule {
         return new ImageWebServiceImpl(imageService);
     }
 
-    //Security
+    @Bean
+    ImageService imageService() {
+        return new ImageServiceImpl();
+    }
+
+    // Security
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> repository.findByEmail(username)
