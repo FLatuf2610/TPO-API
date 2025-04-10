@@ -2,10 +2,10 @@ package com.uade.marketplace.mappers;
 
 import com.uade.marketplace.data.entities.CartEntity;
 import com.uade.marketplace.data.entities.CartProductEntity;
+import com.uade.marketplace.data.entities.ProductEntity;
 import com.uade.marketplace.data.entities.UserEntity;
 import com.uade.marketplace.models.Cart;
 import com.uade.marketplace.models.CartProduct;
-import com.uade.marketplace.models.User;
 
 import java.util.List;
 
@@ -19,12 +19,7 @@ public class CartMapper {
         return new Cart(entity.getId(), products, entity.getUser().getId());
     }
 
-    public static CartEntity toEntity(Cart cart, User user) {
-        List<CartProductEntity> productEntities = cart.getProducts()
-                .stream()
-                .map(CartMapper::toEntity)
-                .toList();
-        UserEntity userEntity = UserMapper.toEntity(user);
+    public static CartEntity toEntity(Cart cart, UserEntity userEntity, List<CartProductEntity> productEntities) {
         return new CartEntity(cart.getId(), productEntities, userEntity);
     }
 
@@ -32,12 +27,11 @@ public class CartMapper {
         return new CartProduct(ProductMapper.toDomain(entity.getProduct()), entity.getProduct().getQuantity());
     }
 
-    public static CartProductEntity toEntity(CartProduct cartProduct) {
+    public static CartProductEntity toEntity(CartProduct cartProduct, ProductEntity productEntity) {
         return CartProductEntity.builder()
-                .product(ProductMapper.toEntity(cartProduct.getProduct()))
+                .product(productEntity)
                 .quantity(cartProduct.getQuantity())
                 .build();
 
     }
-
 }

@@ -1,6 +1,5 @@
 package com.uade.marketplace.mappers;
 
-import com.uade.marketplace.controller.dto.request.product.CreateProductRequest;
 import com.uade.marketplace.controller.dto.response.product.ListProduct;
 import com.uade.marketplace.controller.dto.response.product.ProductDetail;
 import com.uade.marketplace.data.entities.CartEntity;
@@ -22,29 +21,6 @@ public class ProductMapper {
                 .imageUrl(entity.getImageUrl())
                 .category(CategoryMapper.toDomain(entity.getCategory()))
                 .userId(entity.getUser().getId())
-                .build();
-    }
-
-    public static ProductEntity toEntity(Product domain) {
-        return ProductEntity.builder()
-                .id(domain.getId())
-                .name(domain.getName())
-                .description(domain.getDescription())
-                .price(domain.getPrice())
-                .quantity(domain.getQuantity())
-                .imageUrl(domain.getImageUrl())
-                .category(CategoryMapper.toEntity(domain.getCategory()))
-                .build();
-    }
-
-    public static ProductEntity toEntity(CreateProductRequest request) {
-        return ProductEntity.builder()
-                .name(request.getName())
-                .description(request.getDescription())
-                .price(request.getPrice())
-                .quantity(request.getQuantity())
-                .imageUrl(request.getImageUrl())
-                .category(CategoryMapper.toEntity(request.getCategory()))
                 .build();
     }
 

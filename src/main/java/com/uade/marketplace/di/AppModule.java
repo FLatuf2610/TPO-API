@@ -1,5 +1,7 @@
 package com.uade.marketplace.di;
 
+import com.uade.marketplace.controller.web_services.image.ImageWebService;
+import com.uade.marketplace.controller.web_services.image.ImageWebServiceImpl;
 import com.uade.marketplace.controller.web_services.product.ProductWebService;
 import com.uade.marketplace.controller.web_services.product.ProductWebServiceImpl;
 import com.uade.marketplace.data.repositories.*;
@@ -7,6 +9,7 @@ import com.uade.marketplace.service.category.CategoryService;
 import com.uade.marketplace.service.category.CategoryServiceImpl;
 import com.uade.marketplace.service.cart.CartService;
 import com.uade.marketplace.service.cart.CartServiceImpl;
+import com.uade.marketplace.service.image.ImageService;
 import com.uade.marketplace.service.product.ProductService;
 import com.uade.marketplace.service.product.ProductServiceImpl;
 import com.uade.marketplace.service.user.UserService;
@@ -42,8 +45,8 @@ public class AppModule {
     }
 
     @Bean
-    ProductService productService(ProductRepository productRepository) {
-        return new ProductServiceImpl(productRepository);
+    ProductService productService(ProductRepository productRepository, UserRepository userRepository) {
+        return new ProductServiceImpl(productRepository, userRepository);
     }
 
     @Bean
@@ -57,6 +60,12 @@ public class AppModule {
         return new ProductWebServiceImpl(productService, userService);
     }
 
+    @Bean
+    ImageWebService imageWebService(ImageService imageService) {
+        return new ImageWebServiceImpl(imageService);
+    }
+
+    //Security
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> repository.findByEmail(username)
