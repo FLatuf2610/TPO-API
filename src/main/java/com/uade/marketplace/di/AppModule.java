@@ -1,5 +1,7 @@
 package com.uade.marketplace.di;
 
+import com.uade.marketplace.controller.web_services.category.CategoryWebService;
+import com.uade.marketplace.controller.web_services.category.CategoryWebServiceImpl;
 import com.uade.marketplace.controller.web_services.image.ImageWebService;
 import com.uade.marketplace.controller.web_services.image.ImageWebServiceImpl;
 import com.uade.marketplace.controller.web_services.product.ProductWebService;
@@ -50,6 +52,11 @@ public class AppModule {
         return new CartServiceImpl(cartRepository, productRepository, cartProductRepository);
     }
 
+    @Bean
+    ImageService imageService() {
+        return new ImageServiceImpl();
+    }
+
     // WebServices
     @Bean
     ProductWebService productWebService(ProductService productService, UserService userService) {
@@ -57,13 +64,13 @@ public class AppModule {
     }
 
     @Bean
-    ImageWebService imageWebService(ImageService imageService) {
-        return new ImageWebServiceImpl(imageService);
+    CategoryWebService categoryWebService(CategoryService categoryService) {
+        return new CategoryWebServiceImpl(categoryService);
     }
 
     @Bean
-    ImageService imageService() {
-        return new ImageServiceImpl();
+    ImageWebService imageWebService(ImageService imageService) {
+        return new ImageWebServiceImpl(imageService);
     }
 
     // Security

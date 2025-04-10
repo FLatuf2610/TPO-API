@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 @Service
-public class ImageServiceImpl implements ImageService{
+public class ImageServiceImpl implements ImageService {
     @Value("${upload.image.path}")
     private String uploadDir;
 
