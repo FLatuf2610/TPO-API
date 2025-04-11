@@ -18,11 +18,13 @@ public class ImageController {
         this.imageWebService = imageWebService;
     }
 
+    // POST --> {url}/images/uploadImage
     @PostMapping("uploadImage")
     public ResponseEntity<ImageResponse> uploadImage(@RequestParam("image")MultipartFile image) {
         return new ResponseEntity<>(imageWebService.save(image), HttpStatus.CREATED);
     }
 
+    // GET --> {url}/images/id
     @GetMapping("/{id}")
     ResponseEntity<byte[]> getImage(@PathVariable Long id) {
         return new ResponseEntity<>(imageWebService.getImage(id), HttpStatus.OK);

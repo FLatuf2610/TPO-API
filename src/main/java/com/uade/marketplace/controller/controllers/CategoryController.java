@@ -17,31 +17,36 @@ import java.util.List;
 public class CategoryController {
     @Autowired
     private CategoryWebService categoryWebService;
-
+    
+    // GET --> {url}/category
     @GetMapping
     ResponseEntity<GetAllCategoryResponse> getAllCategories() {
         List<Category> categories = categoryWebService.getAllCategories();
         return ResponseEntity.ok(new GetAllCategoryResponse(categories));
     }
 
+    // GET --> {url}/category/id
     @GetMapping("/{id}")
     ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
         Category newCategory = categoryWebService.getCategoryById(id);
         return ResponseEntity.ok(newCategory);
     }
 
+    // POST --> {url}/category
     @PostMapping
     ResponseEntity<Category> createCategory(@RequestBody CreateCategoryRequest category) {
         Category newCategory = categoryWebService.createCategory(category);
         return ResponseEntity.ok(newCategory);
     }
 
+    // PUT --> {url}/category/id
     @PutMapping("/{id}")
     ResponseEntity<Category> editCategory(@PathVariable Long id, @RequestBody CreateCategoryRequest request) {
         Category category = categoryWebService.updateCategory(id, request);
         return ResponseEntity.ok(category);
     }
 
+    // DELETE --> {url}/category/id
     @DeleteMapping("/{id}")
     ResponseEntity<DeleteCategoryResponse> deleteCategory(@PathVariable Long id) {
         return ResponseEntity.ok(categoryWebService.deleteCategory(id));
