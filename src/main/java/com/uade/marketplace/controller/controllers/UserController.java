@@ -21,12 +21,14 @@ public class UserController {
     @Autowired
     private final AuthenticationService service;
 
+    // POST --> {url}/user/register
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody UserRequest request) {
         return ResponseEntity.ok(service.register(request));
     }
 
+    // POST --> {url}/user/authenticate
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest request) {
