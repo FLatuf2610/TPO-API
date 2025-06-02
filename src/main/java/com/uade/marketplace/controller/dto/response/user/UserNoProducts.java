@@ -1,5 +1,6 @@
 package com.uade.marketplace.controller.dto.response.user;
 
+import com.uade.marketplace.models.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,4 +13,5 @@ public class UserNoProducts {
     private String email;
     private String name;
     private String lastName;
+    private Role rol;
 }
