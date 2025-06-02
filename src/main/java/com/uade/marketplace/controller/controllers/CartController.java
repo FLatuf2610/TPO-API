@@ -17,12 +17,14 @@ public class CartController {
 
     private final CartService cartService;
 
+    // GET --> {url}/cart
     @GetMapping
     public ResponseEntity<CartResponse> getCart(Authentication authentication) {
         UserEntity user = (UserEntity) authentication.getPrincipal();
         return ResponseEntity.ok(cartService.getCartByUser(user));
     }
 
+    // POST --> {url}/cart/items
     @PostMapping("/items")
     public ResponseEntity<CartResponse> addItemToCart(
             @RequestBody CartItemRequest request,
@@ -31,6 +33,7 @@ public class CartController {
         return ResponseEntity.ok(cartService.addItemToCart(user, request));
     }
 
+    // PUT --> {url}/cart/items/itemId
     @PutMapping("/items/{itemId}")
     public ResponseEntity<CartResponse> updateCartItem(
             @PathVariable Long itemId,
@@ -40,6 +43,7 @@ public class CartController {
         return ResponseEntity.ok(cartService.updateCartItem(user, itemId, request));
     }
 
+    // DELETE --> {url}/cart/items/itemId
     @DeleteMapping("/items/{itemId}")
     public ResponseEntity<CartResponse> removeItemFromCart(
             @PathVariable Long itemId,
@@ -48,6 +52,7 @@ public class CartController {
         return ResponseEntity.ok(cartService.removeItemFromCart(user, itemId));
     }
 
+    // POST --> {url}/cart/checkout
     @PostMapping("/checkout")
     public ResponseEntity<?> checkout(Authentication authentication) {
         UserEntity user = (UserEntity) authentication.getPrincipal();

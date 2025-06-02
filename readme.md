@@ -2,6 +2,9 @@
 
 Este proyecto implementa una API RESTful para una plataforma de comercio electrónico con funcionalidades para gestión de usuarios, productos y carrito de compras.
 
+> [!TIP]
+> Configura tu archivo application.properties antes de levantar el proyecto
+
 ## Características principales
 
 - **Gestión de usuarios**: registro e inicio de sesión con autenticación JWT
@@ -21,14 +24,15 @@ Este proyecto implementa una API RESTful para una plataforma de comercio electr�
 
 El proyecto sigue una arquitectura en capas:
 
-- **Controllers**: manejo de las peticiones HTTP
-- **Services**: lógica de negocio
-- **Repositories**: acceso a datos
+- **Controllers**: representa la capa de tráfico. Manejo de las peticiones HTTP
+- **Services**: representa la capa de la lógica de negocio
+- **Repositories**: representa la capa de persistencia de datos. Acceso a datos
 - **Entities**: mapeo objeto-relacional
 
 ## Configuración de seguridad
 
-La aplicación utiliza tokens JWT para autenticación y autorización:
+> [!WARNING]
+> La aplicación utiliza tokens JWT para autenticación y autorización:
 
 ```java
 @Bean
@@ -137,6 +141,8 @@ spring.web.resources.static-locations=file:uploads/
 ```
 
 ## Ejecución del proyecto
+> [!IMPORTANT]
+> Sigue los pasos debajo para levantar la aplicación
 
 1. Clonar el repositorio
 2. Configurar la base de datos MySQL

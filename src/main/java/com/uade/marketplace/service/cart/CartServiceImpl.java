@@ -132,7 +132,7 @@ public class CartServiceImpl implements CartService {
                 .orElseThrow(() -> new NoActiveCartException("No tienes un carrito activo"));
 
         CartProductEntity item = cart.getProducts().stream()
-                .filter(i -> i.getId().equals(itemId))
+                .filter(i -> i.getProduct().getId().equals(itemId))
                 .findFirst()
                 .orElseThrow(() -> new ProductNotFoundException("Item no encontrado en el carrito"));
 
@@ -154,7 +154,7 @@ public class CartServiceImpl implements CartService {
                 .orElseThrow(() -> new NoActiveCartException("No tienes un carrito activo"));
 
         CartProductEntity item = cart.getProducts().stream()
-                .filter(i -> i.getId().equals(itemId))
+                .filter(i -> i.getProduct().getId().equals(itemId))
                 .findFirst()
                 .orElseThrow(() -> new ProductNotFoundException("Item no encontrado en el carrito"));
 

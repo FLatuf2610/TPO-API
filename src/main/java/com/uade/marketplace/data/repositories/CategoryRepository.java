@@ -10,6 +10,12 @@ import java.util.List;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> {
+    /**
+     * Retrieves a list of categories whose name exactly matches the provided value.
+     *
+     * @param categoryName the name of the category to search for.
+     * @return a list of CategoryEntity objects with the specified name.
+     */
     @Query("SELECT c FROM CategoryEntity c WHERE c.name = :categoryName")
     List<CategoryEntity> findByName(@Param("categoryName") String categoryName);
 }
