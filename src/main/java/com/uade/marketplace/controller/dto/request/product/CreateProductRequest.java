@@ -27,7 +27,7 @@ public class CreateProductRequest {
     private int quantity;
 
     @NotBlank(message = "El producto debe contener una imagen")
-    private String imageUrl;
+    private String  imageUrl;
 
     @NotBlank(message = "La categoria no puede ser nula")
     private Category category;

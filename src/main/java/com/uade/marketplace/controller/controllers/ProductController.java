@@ -18,6 +18,7 @@ import java.util.List;
 @RequestMapping("products")
 public class ProductController {
     private final ProductWebService productWebService;
+
     @Autowired
     public ProductController(ProductWebService productWebService) {
         this.productWebService = productWebService;
@@ -63,4 +64,12 @@ public class ProductController {
     ResponseEntity<DeleteProductResponse> deleteProduct(@RequestBody DeleteProductRequest request) {
         return ResponseEntity.ok(productWebService.deleteProduct(request));
     }
+
+    // GET --> {url}/products/user/{userId}
+    @GetMapping("/user/{userId}")
+    ResponseEntity<GetAllProductsResponse> getProductsByUserId(@PathVariable Long userId) {
+        List<ListProduct> products = productWebService.getProductsByUserId(userId);
+        return ResponseEntity.ok(new GetAllProductsResponse(products));
+    }
+
 }

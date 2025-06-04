@@ -49,7 +49,7 @@ public class ProductServiceImpl implements ProductService {
                     .stream()
                     .map(ProductMapper::toDomain)
                     .toList();            
-        } catch (DataAccesException e) {
+        } catch (DataAccessException e) {
             throw new DBAccessException("No se pudo acceder a la DB", e);
         }
     }
@@ -60,7 +60,7 @@ public class ProductServiceImpl implements ProductService {
             ProductEntity productEntity = productRepository.findById(id)
                     .orElseThrow(() -> new ProductNotFoundException("El producto que estas buscando no existe"));
             return ProductMapper.toDomain(productEntity);
-        } catch (DataAccesException e) {
+        } catch (DataAccessException e) {
             throw new DBAccessException("No se pudo acceder a la DB", e);
         }
     }
@@ -72,7 +72,7 @@ public class ProductServiceImpl implements ProductService {
                     .stream()
                     .map(ProductMapper::toDomain)
                     .toList();            
-        } catch (DataAccesException e) {
+        } catch (DataAccessException e) {
             throw new DBAccessException("No se pudo acceder a la DB", e);
         }
 
@@ -103,7 +103,7 @@ public class ProductServiceImpl implements ProductService {
             );
 
             return ProductMapper.toDomain(productRepository.save(entity));
-        } catch (DataAccesException e) {
+        } catch (DataAccessException e) {
             throw new DBAccessException("No se pudo acceder a la DB", e);
         }
     }
@@ -130,7 +130,7 @@ public class ProductServiceImpl implements ProductService {
             }
 
             return ProductMapper.toDomain(productRepository.save(productEntity));
-        } catch (DataAccesException e) {
+        } catch (DataAccessException e) {
             throw new DBAccessException("No se pudo acceder a la DB", e);
         }
     }
@@ -154,7 +154,22 @@ public class ProductServiceImpl implements ProductService {
             productImageRepository.deleteById(imageId);
 
             productRepository.delete(productEntity);
-        } catch (DataAccesException e) {
+        } catch (DataAccessException e) {
+            throw new DBAccessException("No se pudo acceder a la DB", e);
+        }
+    }
+
+    @Override
+    public List<Product> getProductsByUserId(Long userId) {
+        try {
+            UserEntity userEntity = userRepository.findById(userId)
+                    .orElseThrow(() -> new UserNotFoundException("El usuario no existe"));
+
+            return productRepository.findByUserId(userId)
+                    .stream()
+                    .map(ProductMapper::toDomain)
+                    .toList();
+        } catch (DataAccessException e) {
             throw new DBAccessException("No se pudo acceder a la DB", e);
         }
     }

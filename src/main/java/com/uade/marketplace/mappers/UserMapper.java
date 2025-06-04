@@ -30,7 +30,7 @@ public class UserMapper {
         userNoProducts.setEmail(user.getEmail());
         userNoProducts.setName(user.getName());
         userNoProducts.setLastName(user.getLastName());
-        userNoProducts.setRol(user.getRole());
+        userNoProducts.setRole(user.getRole());
         return userNoProducts;
     }
 

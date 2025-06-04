@@ -13,5 +13,5 @@ public class UserNoProducts {
     private String email;
     private String name;
     private String lastName;
-    private Role rol;
+    private Role role;
 }

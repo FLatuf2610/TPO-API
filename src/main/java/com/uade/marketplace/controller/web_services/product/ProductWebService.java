@@ -15,4 +15,5 @@ public interface ProductWebService {
     ProductDetail createProduct(CreateProductRequest request);
     ProductDetail updateProduct(Long id, CreateProductRequest request);
     DeleteProductResponse deleteProduct(DeleteProductRequest request);
+    List<ListProduct> getProductsByUserId(Long userId);
 }

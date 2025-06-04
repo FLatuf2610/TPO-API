@@ -68,4 +68,12 @@ public class ProductWebServiceImpl implements ProductWebService {
         productService.deleteProduct(request);
         return new DeleteProductResponse("Producto eliminado correctamente");
     }
+
+    @Override
+    public List<ListProduct> getProductsByUserId(Long userId) {
+        return productService.getProductsByUserId(userId)
+                .stream()
+                .map(ProductMapper::toListProd)
+                .toList();
+    }
 }
