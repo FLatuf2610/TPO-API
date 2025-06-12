@@ -149,9 +149,17 @@ public class ProductServiceImpl implements ProductService {
                 throw new UserNotAllowedException("El usuario no tiene rol de vendedor");
             }
 
+            // Solo intentar eliminar la imagen si existe imageUrl
             String imageUrl = productEntity.getImageUrl();
-            Long imageId = Long.parseLong(imageUrl.substring(imageUrl.lastIndexOf("/") + 1));
-            productImageRepository.deleteById(imageId);
+            if (imageUrl != null && !imageUrl.isEmpty()) {
+                try {
+                    Long imageId = Long.parseLong(imageUrl.substring(imageUrl.lastIndexOf("/") + 1));
+                    productImageRepository.deleteById(imageId);
+                } catch (NumberFormatException | StringIndexOutOfBoundsException e) {
+                    // Log del error pero continuar con la eliminación del producto
+                    System.err.println("Error al procesar imageUrl: " + imageUrl + " - " + e.getMessage());
+                }
+            }
 
             productRepository.delete(productEntity);
         } catch (DataAccessException e) {
