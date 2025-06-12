@@ -64,8 +64,8 @@ public class ProductWebServiceImpl implements ProductWebService {
     }
 
     @Override
-    public DeleteProductResponse deleteProduct(DeleteProductRequest request) {
-        productService.deleteProduct(request);
+    public DeleteProductResponse deleteProduct(Long productId) {
+        productService.deleteProduct(productId);
         return new DeleteProductResponse("Producto eliminado correctamente");
     }
 

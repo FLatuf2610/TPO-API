@@ -136,14 +136,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void deleteProduct(DeleteProductRequest request) {
+    public void deleteProduct(Long productId) {
         try {
-            ProductEntity productEntity = productRepository.findById(request.getProductId())
+            ProductEntity productEntity = productRepository.findById(productId)
                     .orElseThrow(() -> new ProductNotFoundException("El producto a eliminar no existe"));
-
-            if (request.getUserId() != productEntity.getUser().getId()) {
-                throw new UserNotAllowedToModifyOtherUserProductException("El usuario solo puede eliminar sus propios productos");
-            }
 
             if (productEntity.getUser().getRole() != Role.VENDEDOR) {
                 throw new UserNotAllowedException("El usuario no tiene rol de vendedor");

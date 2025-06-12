@@ -12,6 +12,6 @@ public interface ProductService {
     List<Product> getProductsByCategoryId(Long id);
     Product createProduct(CreateProductRequest request);
     Product updateProduct(Long id, CreateProductRequest request);
-    void deleteProduct(DeleteProductRequest request);
+    void deleteProduct(Long prodId);
     List<Product> getProductsByUserId(Long userId);
 }

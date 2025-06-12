@@ -14,6 +14,6 @@ public interface ProductWebService {
     List<ListProduct> getProductsByCategoryId(Long id);
     ProductDetail createProduct(CreateProductRequest request);
     ProductDetail updateProduct(Long id, CreateProductRequest request);
-    DeleteProductResponse deleteProduct(DeleteProductRequest request);
+    DeleteProductResponse deleteProduct(Long productId);
     List<ListProduct> getProductsByUserId(Long userId);
 }

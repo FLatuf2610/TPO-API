@@ -60,9 +60,9 @@ public class ProductController {
     }
 
     // DELETE --> {url}/products
-    @DeleteMapping()
-    ResponseEntity<DeleteProductResponse> deleteProduct(@RequestBody DeleteProductRequest request) {
-        return ResponseEntity.ok(productWebService.deleteProduct(request));
+    @DeleteMapping("/{id}")
+    ResponseEntity<DeleteProductResponse> deleteProduct(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(productWebService.deleteProduct(id));
     }
 
     // GET --> {url}/products/user/{userId}
